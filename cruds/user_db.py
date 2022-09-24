@@ -14,7 +14,7 @@ def regist(username:str,password:str):
 def user_data(user_name: str):
     conn = sqlite3.connect('user.db')
     cur = conn.cursor()
-    cur.execute('SELECT * FROM user WHERE username = "%s"',user_name) #user_nameエラーがわからない
+    cur.execute('SELECT * FROM user where username = ?',(user_name,)) #user_nameエラーがわからない
     output = []
     for row in cur:
         output.append(row)
