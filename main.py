@@ -30,24 +30,31 @@ def login(username: str , password: str):
     return {"message":name} #ユーザー名が返ってくる
 
 @app.get("/login/{username}/{password}")#ユーザー登録　名前、パスワードの登録
-@app.get("/userdata/{username}")#ユーザーデータの出力
+@app.get("/user_list/") #全ユーザリストの獲得
+def list_get():
+    list = user_db.list_get()
+    return list
+
+@app.get("/userdata/{username}")#ユーザーデータの出力（必要な値：ユーザー名）
 def user_get(username :str):
     output = []
     output = user_db.user_data(username)
     return {"message":output} #ユーザーid,名前、パスワードが出てくる
 
-@app.get("/message_room/{myid}/{to_id}") # メッセージルーム作成、入室
+@app.get("/message_room/{myid}/{to_id}") # メッセージルーム作成、入室（必要な値：自身のid,相手のid)
 def room_get(myid:int,to_id:int):
     chat_id = dm.room_choice(myid,to_id)
     return chat_id #メッセージルームのidが返ってくる
 
-@app.get("/message/{myid}/{chatid}") #メッセージ履歴の出力
+@app.get("/message/{myid}/{chatid}") #メッセージ履歴の出力 (必要な値：自身のid,チャットのルームid)
 def chat_get(myid:int,chatid:int):
     ouput = []
     output = dm.message_room(myid,chatid)
     return output # 相手のid,自身のid,過去のメッセージ内容,自身の名前が返ってくる
 
-@app.get("/text/{myid}/{chatid}/{get_text}") #メッセージ送信
+@app.get("/text/{myid}/{chatid}/{get_text}") #メッセージ送信(必要な値：自身のid,チャットのルームid,メッセージ)
 def chat_post(myid:int,chatid:int,get_text:str):
     message = dm.message_text(myid,chatid,get_text)
     return message #送ったメッセージが返ってくる
+
+
