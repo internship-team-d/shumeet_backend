@@ -34,7 +34,7 @@ def message_room(myid:int,chatid:int):
     conn = sqlite3.connect('user.db')
     c = conn.cursor()
     c.execute(
-        "select chatmess.to_user, chatmess.from_user, chatmess.message, user.name from chatmess inner join user on chatmess.from_user = user.id where chat_id = ?", (chatid,))
+        "select chatmess.to_user, chatmess.from_user, chatmess.message, user.username from chatmess inner join user on chatmess.from_user = user.id where chat_id = ?", (chatid,))
     chat_fetch = c.fetchall()
     chat_info = []
     for chat in chat_fetch:
@@ -60,4 +60,4 @@ def message_text(myid:int,chatid :int,text:str):
     c.execute("insert into chatmess values(null,?,?,?,?)",(chatid, to_id, myid, text))
     conn.commit()
     c.close()
-    return chatid
+    return text

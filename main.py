@@ -36,7 +36,8 @@ def chat_get(myid:int,chatid:int):
     output = dm.message_room(myid,chatid)
     return output 
 
-@app.get("/text/{myid}/{yourid}")
+@app.get("/text/{myid}/{yourid}/{get_text}")
 def chat_post(myid:int,yourid:int,get_text:str):
     message = dm.message_text(myid,yourid,get_text)
     return message
+
