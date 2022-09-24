@@ -1,7 +1,7 @@
-from re import A
 from fastapi import *
 import cruds.user_db as user_db
 import cruds.dm as dm
+import cruds.time_line as time_line
 import sqlite3
 from starlette.middleware.cors import CORSMiddleware
 app = FastAPI()
@@ -43,11 +43,14 @@ def list_get():
     list = user_db.list_get()
     return list
 
+
+
 @app.post("/userdata/")#ユーザーデータの出力（必要な値：ユーザー名）
 def user_get(username :str = Form()):
     output = []
     output = user_db.user_data(username)
     return {"message":output} #ユーザーid,名前、パスワードが出てくる
+
 
 @app.get("/message_room/{myid}/{to_id}") # メッセージルーム作成、入室（必要な値：自身のid,相手のid)
 def room_get(myid:int,to_id:int):
@@ -65,7 +68,12 @@ def chat_post(myid:int,chatid:int,get_text:str = Form()):
     message = dm.message_text(myid,chatid,get_text)
     return message #送ったメッセージが返ってくる
 
-@app.get("timeline/")
+@app.get("/timeline/")
 def time_line_get():
-    list = A
+    list = time_line.list_get()
     return list
+
+@app.post("/timeline/{user_id}")
+def time_line_get(user_id:int,text:str = Form()):
+    output = time_line.list_regist(user_id,text)
+    return output

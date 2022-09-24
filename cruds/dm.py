@@ -23,7 +23,7 @@ def room_choice(myid :int,to_id:int):
             conn.commit()
             # 作ったチャットルームのidを取得
             c.execute(
-                "select id from chat where (user_id1 = ? and user_id2 = ?) or (user_id1 = ? and user_id2 = ?)", (my_id, other_id, other_id, my_id))
+                "select id from chat where (user_id1 = ? and user_id2 = ?) or (user_id1 = ? and user_id2 = ?)", (myid, to_id, to_id, myid))
             chat_id = c.fetchone()
         conn.close()
         print(chat_id)
@@ -34,7 +34,7 @@ def message_room(myid:int,chatid:int):
     conn = sqlite3.connect('user.db')
     c = conn.cursor()
     c.execute(
-        "select chatmess.to_user, chatmess.from_user, chatmess.message, user_list.username from chatmess inner join user on chatmess.from_user = user.id where chat_id = ?", (chatid,))
+        "select chatmess.to_user, chatmess.from_user, chatmess.message, user_list.username from chatmess inner join user_list on chatmess.from_user = user_list.id where chat_id = ?", (chatid,))
     chat_fetch = c.fetchall()
     chat_info = []
     for chat in chat_fetch:
