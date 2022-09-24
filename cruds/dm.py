@@ -12,9 +12,9 @@ def room_choice(myid :int,to_id:int):
         # とってきたidの中身で判定。idがNoneであれば作成、それ以外(数字が入っていれば)スルー
         if chat_id == None:
  
-            c.execute("select username from user where id = ?", (myid,))
+            c.execute("select username from user_list where id = ?", (myid,))
             myname = c.fetchone()[0]
-            c.execute("select username from user where id = ?", (to_id,))
+            c.execute("select username from user_list where id = ?", (to_id,))
             othername = c.fetchone()[0]
             # ルーム名を作る
             room = myname + "と" + othername + "のチャット"
@@ -34,7 +34,7 @@ def message_room(myid:int,chatid:int):
     conn = sqlite3.connect('user.db')
     c = conn.cursor()
     c.execute(
-        "select chatmess.to_user, chatmess.from_user, chatmess.message, user.username from chatmess inner join user on chatmess.from_user = user.id where chat_id = ?", (chatid,))
+        "select chatmess.to_user, chatmess.from_user, chatmess.message, user_list.username from chatmess inner join user on chatmess.from_user = user.id where chat_id = ?", (chatid,))
     chat_fetch = c.fetchall()
     chat_info = []
     for chat in chat_fetch:

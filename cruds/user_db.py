@@ -5,7 +5,7 @@ from  fastapi import *
 def regist(username:str,password:str):
     conn = sqlite3.connect('user.db')
     c = conn.cursor()
-    c.execute("insert into user values(null,?,?)", (username, password))
+    c.execute("insert into user_list values(null,?,?)", (username, password))
     conn.commit()
     conn.close()
     return username
@@ -14,7 +14,7 @@ def regist(username:str,password:str):
 def user_data(user_name: str):
     conn = sqlite3.connect('user.db')
     cur = conn.cursor()
-    cur.execute('SELECT * FROM user where username = ?',(user_name,)) #user_nameエラーがわからない
+    cur.execute('SELECT * FROM user_list where username = ?',(user_name,)) #user_nameエラーがわからない
     output = []
     for row in cur:
         output.append(row)
@@ -27,7 +27,7 @@ def user_data(user_name: str):
 def list_get():
     conn = sqlite3.connect('user.db')
     cur = conn.cursor()
-    cur.execute('SELECT * FROM user ') #user_nameエラーがわからない
+    cur.execute('SELECT * FROM user_list ') #user_nameエラーがわからない
     output = []
     for row in cur:
         output.append(row)
