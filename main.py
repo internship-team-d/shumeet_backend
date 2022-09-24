@@ -2,6 +2,7 @@ from fastapi import *
 import cruds.user_db as user_db
 import cruds.dm as dm
 import sqlite3
+from starlette.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 #   conn = sqlite3.connect("user.db")
@@ -11,14 +12,24 @@ app = FastAPI()
 #     cur.execute('CREATE TABLE chatmess(id INTEGER PRIMARY KEY AUTOINCREMENT, chat_id INTEGER,to_user INTEGER,from_user INTEGER,message STRING)')
 #     conn.commit()
 
+app.add_middleware(
+  CORSMiddleware,
+  allow_origins=["*"],
+  allow_credentials=True,
+  allow_methods=["*"],
+  allow_headers=["*"]
+)
+
 @app.get("/")
 def root():
     return {"message": "Hello World"}
 
-@app.get("/login/{username}/{password}")#ユーザー登録　名前、パスワードの登録
+@app.post("/login/{username}/{password}")#ユーザー登録　名前、パスワードの登録
 def login(username: str , password: str):
     name = user_db.regist(username,password)
     return {"message":name} #ユーザー名が返ってくる
+
+@app.get("/login/{username}/{password}")#ユーザー登録　名前、パスワードの登録
 @app.get("/userdata/{username}")#ユーザーデータの出力
 def user_get(username :str):
     output = []
