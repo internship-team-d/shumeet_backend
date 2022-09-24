@@ -51,4 +51,3 @@ def chat_get(myid:int,chatid:int):
 def chat_post(myid:int,chatid:int,get_text:str):
     message = dm.message_text(myid,chatid,get_text)
     return message #送ったメッセージが返ってくる
-
