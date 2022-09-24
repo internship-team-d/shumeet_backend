@@ -24,4 +24,17 @@ def user_data(user_name: str):
 
     return output
 
+def list_get():
+    conn = sqlite3.connect('user.db')
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM user ') #user_nameエラーがわからない
+    output = []
+    for row in cur:
+        output.append(row)
+    #cur.execute("SELECT * FROM user WHEHRE username = ?" ,(user_name)) 
+    conn.commit()
+    conn.close
+
+    return output
+
    
